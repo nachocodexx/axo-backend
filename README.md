@@ -5,7 +5,7 @@ The Axo Backend is the core system for a platform designed to allow users to man
 
 ---
 
-## 🛠️ Architecture
+# 🛠️ Architecture
 The following diagram represents the architecture of the backend system:
 
 <p align="center">
@@ -21,7 +21,7 @@ This architecture ensures a clear separation of concerns:
 
 ---
 
-## 🗂️ Project Structure
+# 🗂️ Project Structure
 
 The project is organized as follows:
 
@@ -39,7 +39,7 @@ The project is organized as follows:
 
 ---
 
-## ⚙️ Prerequisites
+# ⚙️ Prerequisites
 Make sure you have the following installed:
 - **Python 3.10+**
 - **Poetry (for dependency management)**
@@ -47,17 +47,30 @@ Make sure you have the following installed:
 
 ---
 
-## 🚀 Installation
+# 🚀 Getting started
 
-### Step 1: Clone the repository
+## ▶Step 1: Clone the repository
 
 ```bash
-git clone https://github.com/fatimacm/axo-backend.git
+git clone git@github.com:muyal-research-group/axo-backend.git
 cd axo-backend
 ```
-### Step 2: Deploy the MongoDB cluster
+
+## ▶Step 2: Init resources
+Create global network
 ```bash
-docker compose -f ./db/db_cluster.yml up -d
+docker network create axo-net
+```
+
+## ▶Step 3: Deploy the MongoDB
+### MongoDB standalone
+```bash
+docker compose -p axo -f docker-compose.yml up -d axo-db
+```
+
+### MongoDB Cluster
+```bash
+docker compose -p axo -f ./db/db_cluster.yml up -d
 ```
 
 Execute the next command in the mongo1 container: 
@@ -68,7 +81,7 @@ mongosh
 
 Then, copy the contents of scripts/init_repset.sh into the MongoDB command line to initialize the replica set.
 
-### Step 3: Install dependencies
+## ▶Step 4: Install dependencies
 
 ```bash
 poetry lock 
@@ -77,14 +90,27 @@ poetry shell
 ```
 ---
 
-## ▶️ Usage
 
+
+## ▶Step 5: Run server
 ### Run development server:
 
 ```bash
 ./run.sh
 ```
 The backend will be available on port 17000. You can now send API requests to perform CRUD operations.
+
+### Run containerized development server
+
+```bash
+docker compose -p axo -f docker-compose.yml up --build -d axo-backend
+```
+## ▶Step 6: Deploy (all services)
+```bash
+docker compose -p axo -f docker-compose.yml up --build -d
+```
+
+
 
 ---
 
